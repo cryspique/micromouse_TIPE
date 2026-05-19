@@ -5,6 +5,8 @@
 /*
 8x10 cm
 Ecart roues : 6.6 cm
+Diamètre des roues : 27.5 cm
+Masse : 100 g
 */
 
 #define SCREEN_WIDTH 1200

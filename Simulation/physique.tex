@@ -1,15 +1,39 @@
 
 \section{Vitesse de la micromouse}
 
-$\vec F = \Gamma r\vec u_r$ % force de frottements d'une roue sur le sol (u_r vers l'avant)
+\paragraph{Données} :
 
-$\vec T = -\vec f$ % réaction tangentielle du sol sur la roue
+$d$ : la distance entre les roues
 
-$m\vec a=\vec T_1+\vec T_2$ % PFD
+$r$ : le rayon des roues
 
-On projette sur $\vec u_r$
+$\Gamma_1, \Gamma_2$ : le couple des deux roues
 
-$\frac{mv^2}r=r|\Gamma_1+\Gamma_2|$ car $v=$cste
+$m$ : la masse du robot
 
-D'où $v=r\sqrt{\frac{|\Gamma_1+\Gamma_2|}m}$
+$J$ : le moment d'inertie des roues pour leur moteur
 
+\paragraph{Calculs} :
+
+$C_i=J\ddot\theta_i$ (angle de la roue i)
+
+D'où la vitesse angulaire des roues : $\omega_i(t)=\omega_i(0)+\frac C_i J t$
+
+$v(t)=\frac r{\Gamma_1+\Gamma_2}(2J)t$
+
+$\theta(t)=\theta_0+\frac{r(C_2-C_1)}{2Jd}t^2$
+
+Comme on a $\begin{cases}
+    \dot x(t)=\beta t\cos(\theta_0+\alpha t^2)\\
+    \dot x(t)=\beta t\sin(\theta_0+\alpha t^2)
+\end{cases}$
+
+où $\begin{cases}
+    \alpha = \frac{r(C_2-C_1)}{2Jd}\\
+    \beta = \frac r{\Gamma_1+\Gamma_2}(2J)
+\end{cases}$
+
+Alors $\begin{cases}
+    x(t) = x_0 + \frac{d(C_1+C_2)}{2(C_2-C_1)(\sin(\theta_0+\frac{r(C_2-C_1)}{2Jd}t^2)-\sin\theta_0)}\\
+    y(t) = y_0 - \frac{d(C_1+C_2)}{2(C_2-C_1)(\cos(\theta_0+\frac{r(C_2-C_1)}{2Jd}t^2)-\cos\theta_0)}
+\end{cases}$
