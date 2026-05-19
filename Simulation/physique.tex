@@ -1,7 +1,24 @@
+\documentclass{article}
+
+\usepackage[english]{babel}
+
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+\title{TIPE}
+\author{Solal}
+
+\begin{document}
+\maketitle
+
 
 \section{Vitesse de la micromouse}
 
-\paragraph{Données} :
+\paragraph{Données}
 
 $d$ : la distance entre les roues
 
@@ -13,27 +30,28 @@ $m$ : la masse du robot
 
 $J$ : le moment d'inertie des roues pour leur moteur
 
-\paragraph{Calculs} :
+$f$ : coefficient de frottements internes (en $N\cdot m\cdot s$, correspond à $\frac{\Gamma_{\text{max}}}{\omega_{\text{lim}}}$)
 
-$C_i=J\ddot\theta_i$ (angle de la roue i)
+\paragraph{Calculs}
 
-D'où la vitesse angulaire des roues : $\omega_i(t)=\omega_i(0)+\frac C_i J t$
+$J\dot\omega_i=\Gamma_i-f\omega_i$ ($\theta$ l'angle de la roue i, $f\omega$ le couple de frottements)
 
-$v(t)=\frac r{\Gamma_1+\Gamma_2}(2J)t$
+On pose $\tau=\frac J f$
 
-$\theta(t)=\theta_0+\frac{r(C_2-C_1)}{2Jd}t^2$
+D'où la vitesse angulaire des roues : $\omega_i(t)=\frac {\Gamma_i} f(1-e^{-\frac t\tau})+\omega_i(0)e^{-\frac t\tau}$
 
-Comme on a $\begin{cases}
-    \dot x(t)=\beta t\cos(\theta_0+\alpha t^2)\\
-    \dot x(t)=\beta t\sin(\theta_0+\alpha t^2)
-\end{cases}$
+Et leur vitesse :
+$v_i=\omega_ir$
 
-où $\begin{cases}
-    \alpha = \frac{r(C_2-C_1)}{2Jd}\\
-    \beta = \frac r{\Gamma_1+\Gamma_2}(2J)
-\end{cases}$
+On a donc
 
-Alors $\begin{cases}
-    x(t) = x_0 + \frac{d(C_1+C_2)}{2(C_2-C_1)(\sin(\theta_0+\frac{r(C_2-C_1)}{2Jd}t^2)-\sin\theta_0)}\\
-    y(t) = y_0 - \frac{d(C_1+C_2)}{2(C_2-C_1)(\cos(\theta_0+\frac{r(C_2-C_1)}{2Jd}t^2)-\cos\theta_0)}
-\end{cases}$
+$v(t)=\frac{v_1+v_2}2=\underbrace{\frac{r(\Gamma_1+\Gamma_2)}{2f}}_{v(t\to+\infty)}+\frac r 2(\omega_1(0)+\omega_2(0)-\frac{\Gamma_1+\Gamma_2}{f})e^{-\frac t\tau}$
+
+$\dot\theta(t)=\frac{v_2-v_1}d$
+
+$\quad=\underbrace{\frac{r(\Gamma_2-\Gamma_1)}{df}}_{\dot\theta(t\to+\infty)}+\frac rd\big((\omega_2(0)-\frac {C_2}f)-(\omega_1(0)-\frac{C_1}f)\big)$
+
+D'où $\theta(t)=\theta_0+\frac{r(\Gamma_2-\Gamma_1)}{df}t+\frac rd\big((\omega_2(0)-\frac {C_2}f)-(\omega_1(0)-\frac{C_1}f)\big)\tau(1-e^{-\frac t\tau})$
+
+
+\end{document}
