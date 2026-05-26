@@ -9,9 +9,6 @@ Diamètre des roues : 27.5 cm
 Masse : 100 g
 */
 
-#define SCREEN_WIDTH 1200
-#define SCREEN_HEIGHT 800
-
 typedef struct {
   Vector2 position;
 
@@ -35,7 +32,10 @@ typedef struct {
 } Mouse;
 
 int main(void) {
-  InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Micromouse Physics");
+
+  Vector2 window = {1200, 800};
+
+  InitWindow(window.x, window.y, "Micromouse Physics");
 
   SetTargetFPS(60);
 
