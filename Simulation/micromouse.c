@@ -9,6 +9,9 @@ Diamètre des roues : 27.5 cm
 Masse : 100 g
 */
 
+float const CELL_SIZE = 18e-2 // (m)
+float const WALL_WIDTH = 12e-3 // (m)
+
 typedef struct {
   Vector2 position;
 
