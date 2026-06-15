@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 typedef struct {
-
   Vector2 init_pos;
 
   Vector2 size;
@@ -24,24 +23,25 @@ typedef struct {
   float theta;
   float speed;
 
+  float gamma_max;
 } micromouse;
 
 float speed(micromouse m, float t) {
   return m.wheel_r * (m.C1 + m.C2) / (2 * m.f) +
-         (m.wheel_r / 2) * (m.omega1_0 + m.omega2_0 - (m.C1 + m.C2) / m.f) *
+         (m.wheel_r / 2) * (m.omega1_0 + m.omega2_0 - m.gamma_max * (m.C1 + m.C2) / m.f) *
              exp(-m.f * t / m.J);
 }
 
 float theta(micromouse m, float t) {
-  return m.theta + ((m.wheel_r * (float)(m.C2 - m.C1)) / (m.d * m.f)) * t +
+  return m.theta + ((m.wheel_r * m.gamma_max * (float)(m.C2 - m.C1)) / (m.d * m.f)) * t +
          (m.wheel_r / m.d) *
-             ((m.omega2_0 - (m.C2 / m.f)) - (m.omega1_0 - (m.C1 / m.f))) *
+             ((m.omega2_0 - m.gamma_max * (m.C2 / m.f)) - (m.omega1_0 - m.gamma_max * (m.C1 / m.f))) *
              exp(-m.f * t / m.J);
 }
 
 int main() {
-  const int screenWidth = 1450;
-  const int screenHeight = 850;
+  const int screenWidth = 1250;
+  const int screenHeight = 650;
 
   micromouse mouse = {0};
 
@@ -67,17 +67,17 @@ int main() {
   mouse.init_pos = (Vector2){725, 300};
   mouse.theta = M_PI / 2;
 
-  mouse.size = (Vector2){80, 100};
+  mouse.size = (Vector2){80e-1, 100e-1};
 
   Rectangle m = {mouse.init_pos.x - mouse.size.x / 2, mouse.init_pos.y,
                  mouse.size.x, mouse.size.y};
 
   mouse.mass = 0.1;
   mouse.d = 0.66;
+  mouse.gamma_max = 4e-2;
+  mouse.f = 3.8e-3;
 
-  mouse.f = 0.05;
-
-  mouse.wheel_r = 0.14;
+  mouse.wheel_r = 14e-3;
 
   mouse.speed = 0.;
 
@@ -128,7 +128,7 @@ int main() {
 
     // Physics
 
-    mouse.speed = mouse.wheel_r * (mouse.C1 + mouse.C2) / (2 * mouse.f);
+    mouse.speed = mouse.wheel_r * mouse.gamma_max * (mouse.C1 + mouse.C2) / (2 * mouse.J);
 
     // Draw
     //----------------------------------------------------------------------------------
